@@ -267,7 +267,8 @@ class MirrorStreamServer(
     companion object {
         private const val MAX_PAYLOAD = 8 * 1024 * 1024        // 8 MB sanity cap per frame
         private const val FRAME_INTERVAL_US = 1_000_000L / 60  // monotonic PTS hint (~60fps)
-        private const val QUEUE_CAPACITY = 90                  // ~1.5s @60fps before dropping
+        // Keep a short realtime window: stale frames are worse than a brief drop.
+        private const val QUEUE_CAPACITY = 12                  // ~200 ms @60fps
         private const val SURFACE_WAIT_TRIES = 50
         private const val SURFACE_WAIT_MS = 100L
     }
